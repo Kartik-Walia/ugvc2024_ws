@@ -1,9 +1,15 @@
 <launch>
     <!-- Load the robot description from URDF -->
-    <param name="robot_description" command="cat $(find robot_simulation)/urdf/4wheel.urdf" />
+    <param name="robot_description" command="cat $(find robot_simulation)/urdf/rover.urdf" />
 
     <!-- Launch Gazebo with the empty world -->
-    <include file="$(find gazebo_ros)/launch/empty_world.launch"/>
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="paused" value="false"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="gui" value="true"/>
+        <arg name="headless" value="false"/>
+        <arg name="debug" value="false"/>
+    </include>
 
     <!-- Spawn the robot in Gazebo -->
     <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model 4wheel"  output="screen" />
@@ -12,5 +18,11 @@
     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
     <!-- Launch the joint state publisher GUI -->
-    <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
+    <!-- <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" /> -->
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />    <!-- We don't need slider -->
+
+    <!-- Start SLAM with gmapping -->
+    <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+        <rosparam command="load" file="$(find robot_simulation)/config/gmapping_params.yaml" />
+    </node>
 </launch>
