@@ -1,23 +1,103 @@
+# SUBSCRIBED TOPICS
+# tf (tf/tfMessage) -> To relate frames for laser, base, and odometry
+# scan (sensor_msgs/LaserScan)
+
+
+
+
+# PUBLISHED TOPICS 
+# map_metadata (nav_msgs/MapMetaData)
+# map (nav_msgs/OccupancyGrid) -> Map data, which is latched, and updated periodically
+# ~entropy (std_msgs/Float64) -> entropy of the distribution over robot's pose (a higher value indicates greater uncertainty)
+
+
+
+
+# SERVICES 
+# dynamic_map (nav_msgs/GetMap) -> To get the map data
+
+
+
+
+# PARAMETERS
+# ~throttle_scans (int, default: 1) -> Process 1 out of every this many scans (set it to a higher number to skip more scans)
+
 base_frame: "base_link"
+
+# ~map_frame (string, default: "map") -> The frame attached to the map
+
 odom_frame: "odom"
-max_update_interval: 2.0
-maxUrange: 10.0
-maxRange: 12.0
-sigma: 0.05
-kernelSize: 1
-lstep: 0.05
-astep: 0.05
-iterations: 5
-lsigma: 0.075
-ogain: 3.0
-lskip: 0
-minimumScore: 200
-srr: 0.01
-srt: 0.02
-str: 0.01
-stt: 0.02
-linearUpdate: 0.5
-angularUpdate: 0.436
-temporalUpdate: -1.0
-resampleThreshold: 0.5
-particles: 80
+
+map_update_interval: 0.01 # How long (in seconds) between updates to the map. Lowering this number updates the occupancy grid more often, at the expense of greater computational load.
+
+maxUrange: 10.0 # Maximum usable range (in meters) of the laser. A beam is cropped to this value 
+
+sigma: 0.05 # Used by greedy endpoint matching. 
+# If you observe that the scan matching process is too rigid and fails to match scans accurately, you might increase the sigma value. 
+# If it's too lenient and matches scans inaccurately or to wrong features, you might decrease the sigma value.
+
+kernelSize: 1 # Defines the size of the search area (or "kernel") around each scan point within which the algorithm will look for a correspondence in the map 
+# If the kernelSize is too small, the algorithm may not find the correct match, leading to poor localization and map accuracy. 
+# If it is too large, it may introduce errors due to incorrect correspondences being considered.
+# Default value is often set to 1, which means the algorithm will search for correspondences within a 1-cell radius around each scan point
+
+lstep: 0.05 # The optimization step in translation (in meters)
+# It determines how finely the algorithm adjusts the robot's estimated position in the x and y directions to minimize the error between the current scan and the map. A smaller step size allows for more precise adjustments but may increase computation time.
+
+astep: 0.05 # The optimization step in rotation (in meters)
+# It determines how finely the algorithm adjusts the robot's estimated orientation to minimize the error between the current scan and the map. A smaller step size allows for more precise angular adjustments but may also increase computation time.
+
+iterations: 5 # The number of iterations of the scanmatcher
+# More iterations can lead to a more accurate match by allowing the algorithm to make finer adjustments over multiple passes. However, increasing the number of iterations also increases the computation time.
+
+lsigma: 0.075 # Sigma of a beam used for likelihood computation
+ogain: 3.0 # Gain to be used while evaluating the likelihood, for smoothing the resampling effects
+lskip: 0 # Number of beams to skip in each scan. Take only every (n+1)th laser ray for computing a match (0 = take all rays)
+
+minimumScore: 200 # Minimum score for considering the outcome of the scan matching good (float, default 0.0). 
+# Can avoid jumping pose estimates in large open spaces when using laser scanners with limited range (e.g. 5m). 
+# Scores go up to 600+, try 50 for example when experiencing jumping estimate issues.
+
+srr: 0.01 # Odometry error in translation as a function of translation (rho/rho)
+srt: 0.02 # Odometry error in translation as a function of rotation (rho/theta)
+str: 0.01 # Odometry error in rotation as a function of translation (theta/rho)
+stt: 0.02 # Odometry error in rotation as a function of rotation (theta/theta)
+linearUpdate: 0.5 # Process a scan each time the robot translates this far (in meters)
+angularUpdate: 0.436 # Process a scan each time the robot rotates this far (in meters)
+
+temporalUpdate: -1.0 # Process a scan if the last scan processed is older than the update time in seconds. 
+# A value less than zero will turn time based updates off.
+
+resampleThreshold: 0.5 # Neff based resampling threshold
+particles: 80 # Number of particles in the filter
+
+# ~xmin (float, default: -100.0) -> Initial map size (in metres)
+# ~ymin (float, default: -100.0) -> Initial map size (in metres)
+# ~xmax (float, default: 100.0) -> Initial map size (in metres)
+# ~ymax (float, default: 100.0) -> Initial map size (in metres)
+# ~delta (float, default: 0.05) -> Resolution of the map (in metres per occupancy grid block)
+# ~llsamplerange (float, default: 0.01) -> Translational sampling range for the likelihood
+# ~llsamplestep (float, default: 0.01) -> Translational sampling step for the likelihood
+# ~lasamplerange (float, default: 0.005) -> Angular sampling range for the likelihood
+# ~lasamplestep (float, default: 0.005) -> Angular sampling step for the likelihood
+
+# ~transform_publish_period (float, default: 0.05) -> How long (in seconds) between tf publications. To disable broadcasting tf, set to 0.
+
+# ~occ_thresh (float, default: 0.25) -> Threshold on gmapping's occupancy values. 
+# Cells with greater occupancy are considered occupied (i.e., set to 100 in the resulting sensor_msgs/LaserScan).
+
+maxRange: 12.0 # maximum range of the sensor 
+# If regions with no obstacles within the range of the sensor should appear as free space in the map, set maxUrange < maximum range of the real sensor <= maxRange
+
+
+
+
+# REQUIRED TF TRANSFORMS 
+# <the frame attached to incoming scans> → base_link
+# usually a fixed value, broadcast periodically by a robot_state_publisher, or a tf static_transform_publisher.
+
+# base_link → odom
+# usually provided by the odometry system (e.g., the driver for the mobile base)
+
+# PROVIDED TF TRANSFORMS 
+# map → odom -> the current estimate of the robot's pose within the map frame
