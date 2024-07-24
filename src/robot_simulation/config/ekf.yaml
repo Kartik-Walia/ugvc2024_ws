@@ -1,0 +1,29 @@
+freq: 30 # update and publishing frequency of the filter
+# Note that a higher frequency will give you more robot poses over time, but it will not increase the accuracy of each estimated robot pose.
+
+sensor_timeout: 0.1 # When a sensor stops sending information to filter, how long should the filter wait before moving on without that sensor.
+two_d_mode: true
+
+# TODO: Need to make changes in this file further 
+map_frame: map
+odom_frame: odom
+base_link_frame: base_link
+world_frame: odom
+
+imu0: /imu/data
+imu0_config: [false, false, false,
+              true,  true,  true,
+              false, false, false,
+              true,  true,  true,
+              true,  true,  true]
+imu0_differential: false
+imu0_relative: true 
+
+# odom0: /lidar_odometry
+# odom0_config: [true,  true,  false,
+#                false, false, true,
+#                true,  false, false,
+#                false, false, true,
+#                false, false, false]
+# odom0_differential: false
+# odom0_relative: false

@@ -1,0 +1,130 @@
+# PARAMETERS
+# ~base_local_planner (string, default: "base_local_planner/TrajectoryPlannerROS")
+# The name of the plugin for the local planner to use with move_base see pluginlib documentation for more details on plugins. This plugin must adhere to the nav_core::BaseLocalPlanner interface specified in the nav_core package. (1.0 series default: "TrajectoryPlannerROS")
+
+# The nav_core::BaseLocalPlanner provides an interface for local planners used in navigation. All local planners written as plugins for the move_base node must adhere to this interface. Current local planners using the nav_core::BaseLocalPlanner interface are:
+# 1. base_local_planner - Provides implementations of the Dynamic Window Approach(DWA)and Trajectory Rollout approaches to local control
+# 2. dwa_local_planner - Modular DWA implementation with a lot cleaner and easier interface to understand and more flexible y axis variables for holonomic robots than base_local_planner's DWA
+# 3. eband_local_planner - Implements the Elastic Band method on the SE2 manifold
+# 4. teb_local_planner - Implements the Timed-Elastic-Band method for online trajectory optimization
+# 5. mpc_local_planner - Provides several model predictive control approaches embedded in the SE2 manifold
+
+base_local_planner: dwa_local_planner/DWAPlannerROS
+
+
+
+
+# DWA Planner
+# Published Topics
+# ~<name>/global_plan (nav_msgs/Path) - The portion of the global plan that the local planner is currently attempting to follow. Used primarily for visualization purposes.
+# ~<name>/local_plan (nav_msgs/Path) - The local plan or trajectory that scored the highest on the last cycle. Used primarily for visualization purposes.
+
+
+# Subscribed Topics 
+# odom (nav_msgs/Odometry) - Odometry information that gives the local planner the current speed of the robot. The velocity information in this message is assumed to be in the same coordinate frame as the robot_base_frame of the costmap contained within the TrajectoryPlannerROS object. See the costmap_2d package for information about the robot_base_frame parameter.
+
+
+DWAPlannerROS:
+# Parameters 
+# Robot Configuration Parameters    # TODO: Will change during testing
+# ~<name>/acc_lim_x (double, default: 2.5) - The x acceleration limit of the robot in meters/sec^2
+  acc_lim_x: 2.5                
+
+# ~<name>/acc_lim_y (double, default: 2.5) - The y acceleration limit of the robot in meters/sec^2
+  acc_lim_y: 2.5                
+
+# ~<name>/acc_lim_th (double, default: 3.2) - The rotational acceleration limit of the robot in radians/sec^2
+  acc_lim_th: 3.2               
+
+# ~<name>/max_vel_trans (double, default: 0.55) - The absolute value of the maximum translational velocity for the robot in m/s
+  max_vel_trans: 0.55           
+
+# ~<name>/min_vel_trans (double, default: 0.1) - The absolute value of the minimum translational velocity for the robot in m/s
+  min_vel_trans: 0.1            
+
+# ~<name>/max_vel_x (double, default: 0.55) - The maximum x velocity for the robot in m/s.
+  max_vel_x: 0.55 
+
+# ~<name>/min_vel_x (double, default: 0.0) - The minimum x velocity for the robot in m/s, negative for backwards motion.
+  min_vel_x: 0.0   
+
+# ~<name>/max_vel_y (double, default: 0.1) - The maximum y velocity for the robot in m/s
+  max_vel_y: 0.1        
+
+# ~<name>/min_vel_y (double, default: -0.1) - The minimum y velocity for the robot in m/s
+  min_vel_y: -0.1         
+
+# ~<name>/max_rot_vel (double, default: 1.0) - The absolute value of the maximum rotational velocity for the robot in rad/s
+  max_rot_vel: 1.0             
+
+# ~<name>/min_rot_vel (double, default: 0.4) - The absolute value of the minimum rotational velocity for the robot in rad/s
+  min_rot_vel: 0.4          
+
+
+# Goal Tolerance Parameters
+# ~<name>/yaw_goal_tolerance (double, default: 0.05) - The tolerance in radians for the controller in yaw/rotation when achieving its goal
+  yaw_goal_tolerance: 0.05 
+
+# ~<name>/xy_goal_tolerance (double, default: 0.10) - The tolerance in meters for the controller in the x & y distance when achieving a goal
+  xy_goal_tolerance: 0.10    # TODO: Will change during testing 
+
+# ~<name>/latch_xy_goal_tolerance (bool, default: false) - If goal tolerance is latched, if the robot ever reaches the goal xy location it will simply rotate in place, even if it ends up outside the goal tolerance while it is doing so.
+  latch_xy_goal_tolerance: false 
+
+
+# Forward Simulation Parameters
+# ~<name>/sim_time (double, default: 1.7)- The amount of time to forward-simulate trajectories in seconds
+  sim_time: 1.7 
+
+# ~<name>/sim_granularity (double, default: 0.025)- The step size, in meters, to take between points on a given trajectory
+  sim_granularity: 0.025 
+
+# ~<name>/vx_samples (integer, default: 3)- The number of samples to use when exploring the x velocity space
+  vx_samples: 3 
+
+# ~<name>/vy_samples (integer, default: 10)- The number of samples to use when exploring the y velocity space
+  vy_samples: 10  
+
+# ~<name>/vth_samples (integer, default: 20)- The number of samples to use when exploring the theta velocity space
+  vth_samples: 20 
+
+# ~<name>/controller_frequency (double, default: 20.0)- The frequency at which this controller will be called in Hz. Uses searchParam to read the parameter from parent namespaces if not set in the namespace of the controller. For use with move_base, this means that you only need to set its "controller_frequency" parameter and can safely leave this one unset.
+
+
+# Trajectory Scoring Parameters
+# The cost function used to score each trajectory is in the following form:
+# cost = path_distance_bias * (distance to path from the endpoint of the trajectory in meters) + goal_distance_bias * (distance to local goal from the endpoint of the trajectory in meters) + occdist_scale * (maximum obstacle cost along the trajectory in obstacle cost (0-254))
+
+# ~<name>/path_distance_bias (double, default: 32.0) - The weighting for how much the controller should stay close to the path it was given
+  path_distance_bias: 32.0 
+
+# ~<name>/goal_distance_bias (double, default: 24.0) - The weighting for how much the controller should attempt to reach its local goal, also controls speed
+  goal_distance_bias: 24.0  
+
+# ~<name>/occdist_scale (double, default: 0.01) - The weighting for how much the controller should attempt to avoid obstacles
+  occdist_scale: 0.01    # TODO: May change after testing 
+
+# ~<name>/forward_point_distance (double, default: 0.325) - The distance from the center point of the robot to place an additional scoring point, in meters
+  forward_point_distance: 0.325    # TODO: May change after testing 
+
+# ~<name>/stop_time_buffer (double, default: 0.2) - The amount of time that the robot must stop before a collision in order for a trajectory to be considered valid in seconds
+  stop_time_buffer: 0.2  
+
+# ~<name>/scaling_speed (double, default: 0.25) - The absolute value of the velocity at which to start scaling the robot's footprint, in m/s
+  scaling_speed: 0.25    # TODO: May change after testing           
+
+# ~<name>/max_scaling_factor (double, default: 0.2) - The maximum factor to scale the robot's footprint by
+  max_scaling_factor: 0.2    # TODO: May change after testing 
+
+# ~<name>/publish_cost_grid (bool, default: false) - Whether or not to publish the cost grid that the planner will use when planning. When true, a sensor_msgs/PointCloud2 will be available on the ~<name>/cost_cloud topic. Each point cloud represents the cost grid and has a field for each individual scoring function component as well as the overall cost for each cell, taking the scoring parameters into account.
+  publish_cost_grid: false     
+
+
+# Oscillation Prevention Parameters
+# ~<name>/oscillation_reset_dist (double, default: 0.05) - How far the robot must travel in meters before oscillation flags are reset
+  oscillation_reset_dist: 0.05
+
+
+# Global Plan Parameters
+# ~<name>/prune_plan (bool, default: true) - Defines whether or not to eat up the plan as the robot moves along the path. If set to true, points will fall off the end of the plan once the robot moves 1 meter past them.
+  prune_plan: false

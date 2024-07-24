@@ -23,6 +23,20 @@
 
     <!-- Start SLAM with gmapping -->
     <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
-        <rosparam command="load" file="$(find robot_simulation)/config/gmapping_params.yaml" />
+        <rosparam file="$(find robot_simulation)/config/gmapping_params.yaml" command="load" />
+    </node>
+
+    <!-- Start EKF Localization -->
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization">
+        <rosparam file="$(find robot_simulation)/config/ekf.yaml" command="load" />
+    </node>
+
+    <!-- Start Move Base for navigation -->
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+        <rosparam file="$(find robot_simulation)/config/movebase_params.yaml" command="load" />
+        <rosparam file="$(find robot_simulation)/config/global_planner_params.yaml" command="load" /> 
+        <rosparam file="$(find robot_simulation)/config/local_planner_params.yaml" command="load" /> 
+        <rosparam file="$(find robot_simulation)/config/global_costmap_params.yaml" command="load" ns="global_costmap" /> 
+        <rosparam file="$(find robot_simulation)/config/local_costmap_params.yaml" command="load" ns="local_costmap" /> 
     </node>
 </launch>

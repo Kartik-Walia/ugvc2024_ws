@@ -30,7 +30,7 @@ odom_frame: "odom"
 
 map_update_interval: 0.01 # How long (in seconds) between updates to the map. Lowering this number updates the occupancy grid more often, at the expense of greater computational load.
 
-maxUrange: 10.0 # Maximum usable range (in meters) of the laser. A beam is cropped to this value 
+maxUrange: 25.0 # Maximum usable range (in meters) of the laser. A beam is cropped to this value 
 
 sigma: 0.05 # Used by greedy endpoint matching. 
 # If you observe that the scan matching process is too rigid and fails to match scans accurately, you might increase the sigma value. 

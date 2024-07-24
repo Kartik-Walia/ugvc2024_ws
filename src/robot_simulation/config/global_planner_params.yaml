@@ -1,0 +1,85 @@
+# PARAMETERS
+# ~base_global_planner (string, default: "navfn/NavfnROS" For 1.1+ series)
+# The name of the plugin for the global planner to use with move_base, see pluginlib documentation for more details on plugins. This plugin must adhere to the nav_core::BaseGlobalPlanner interface specified in the nav_core package. (1.0 series default: "NavfnROS")
+
+# The nav_core::BaseGlobalPlanner provides an interface for global planners used in navigation. All global planners written as plugins for the move_base node must adhere to this interface. Current global planners using the nav_core::BaseGlobalPlanner interface are:
+# 1. global_planner - A fast, interpolated global planner built as a more flexible replacement to navfn. (pluginlib name: "global_planner/GlobalPlanner")
+# 2. navfn - A grid-based global planner that uses a navigation function to compute a path for a robot. (pluginlib name: "navfn/NavfnROS")
+# 3. carrot_planner - A simple global planner that takes a user-specified goal point and attempts to move the robot as close to it as possible, even when that goal point is in an obstacle. (pluginlib name: "carrot_planner/CarrotPlanner")
+
+base_global_planner: global_planner/GlobalPlanner
+
+
+
+
+# GLOBAL PLANNER 
+# Examples of Different Parameterizations
+# 1. Standard Behaviour (All parameters default) 
+# 2. Grid Path (use_grid_path=True) - path follows the grid boundaries
+# 3. Simple Potential Calculation (use_quadratic=False) - Slightly different calculation for the potential. Note that the original potential calculation from navfn is a quadratic approximation. Of what, the maintainer of this package has no idea.
+# 4. A* Path (use_dijkstra=False) - Note that a lot less of the potential has been calculated (indicated by the colored areas). This is indeed faster than using Dijkstra's, but has the effect of not necessarily producing the same paths. Another thing to note is that in this implementation of A*, the potentials are computed using 4-connected grid squares, while the path found by tracing the potential gradient from the goal back to the start uses the same grid in an 8-connected fashion. Thus, the actual path found may not be fully optimal in an 8-connected sense. (Also, no visited-state set is tracked while computing potentials, as in a more typical A* implementation, because such is unnecessary for 4-connected grids). 
+# 5. Old Navfn Behavior (old_navfn_behavior=True) - For reproducing paths just like NavFn did.
+#    - The start of the path does not match the actual start location.
+#    - The very end of the path moves along grid lines.
+#    - All of the coordinates are slightly shifted by half a grid cell.
+
+# Orientation filter
+# As a post-processing step, an orientation can be added to the points on the path. With use of the ~orientation_mode parameter (dynamic reconfigure), the following orientation modes can be set:
+# - None=0 (No orientations added except goal orientation)
+# - Forward=1 (Positive x axis points along path, except for the goal orientation)
+# - Interpolate=2 (Orientations are a linear blend of start and goal pose)
+# - ForwardThenInterpolate=3 (Forward orientation until last straightaway, then a linear blend until the goal pose)
+# - Backward=4 (Negative x axis points along the path, except for the goal orientation)
+# - Leftward=5 (Positive y axis points along the path, except for the goal orientation)
+# - Rightward=6 (Negative y axis points along the path, except for the goal orientation)
+# The orientation of point i is calculated using the positions of i - orientation_window_size and `i + orientation_window_size`. The window size can be altered to smoothen the orientation calculation.
+
+
+# Published Topics 
+# ~<name>/plan (nav_msgs/Path) - The last plan computed, published every time the planner computes a new path, and used primarily for visualization purposes.
+
+
+GlobalPlanner:
+# Parameters 
+# ~<name>/allow_unknown (bool, default: true) - Specifies whether or not to allow the planner to create plans that traverse unknown space.
+# NOTE: if you are using a layered costmap_2d costmap with a voxel or obstacle layer, you must also set the track_unknown_space param for that layer to be true, or it will convert all your unknown space to free space (which planner will then happily go right through).
+  allow_unknown: True
+
+# ~<name>/default_tolerance (double, default: 0.0) - A tolerance on the goal point for the planner. The planner will attempt to create a plan that is as close to the specified goal as possible but no further than default_tolerance away.
+  default_tolerance: 0.0
+
+# ~<name>/visualize_potential (bool, default: false) - Specifies whether or not to visualize the potential area computed via a PointCloud2.
+  visualize_potential: false
+
+# ~<name>/use_dijkstra (bool, default: true) - If true, use dijkstra's algorithm. Otherwise, A*.
+  use_dijkstra: false 
+
+# ~<name>/use_quadratic (bool, default: true) - If true, use the quadratic approximation of the potential. Otherwise, use a simpler calculation.
+  use_quadratic: true 
+
+# ~<name>/use_grid_path (bool, default: false) - If true, create a path that follows the grid boundaries. Otherwise, use a gradient descent method.
+  use_grid_path: false
+
+# ~<name>/old_navfn_behavior (bool, default: false) - If for some reason, you want global_planner to exactly mirror the behavior of navfn, set this to true (and use the defaults for the other boolean parameters)
+  old_navfn_behavior: false 
+
+# ~<name>/lethal_cost (int, default: 253) - Lethal Cost (dynamic reconfigure)
+  lethal_cost: 253
+
+# ~<name>/neutral_cost (int, default: 50) - Neutral Cost (dynamic reconfigure)
+  neutral_cost: 50
+
+# ~<name>/cost_factor (double, default: 3.) - Factor to multiply each cost from costmap by (dynamic reconfigure)
+  cost_factor: 3.0
+
+# ~<name>/publish_potential (bool, default: True) - Publish Potential Costmap (dynamic reconfigure)
+  publish_potential: true
+
+# ~<name>/orientation_mode (int, default: 0) - How to set the orientation of each point (None=0, Forward=1, Interpolate=2, ForwardThenInterpolate=3, Backward=4, Leftward=5, Rightward=6) (dynamic reconfigure)
+  orientation_mode: 0
+
+# ~<name>/orientation_window_size (int, default: 1) - What window to use to determine the orientation based on the position derivative specified by the orientation mode (dynamic reconfigure)
+  orientation_window_size: 1
+
+# ~<name>/outline_map (bool, default: true) - Outlines the global costmap with lethal obstacles. For the usage of a non static (rolling window) global costmap this needs to be set to false
+  outline_map: true    # TODO: May change later after testing 
