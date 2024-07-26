@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Autonomous.css';
 
 const Autonomous = () => {
@@ -13,6 +13,7 @@ const Autonomous = () => {
     sensor: false,
     camera: false,
   });
+  const [batteryLevel, setBatteryLevel] = useState(null);
 
   const handleAddCoordinate = () => {
     if (longitude && latitude && !isNaN(longitude) && !isNaN(latitude)) {
@@ -41,6 +42,18 @@ const Autonomous = () => {
       [switchName]: !prevState[switchName],
     }));
   };
+
+  useEffect(() => {
+    const updateBatteryStatus = (battery) => {
+      setBatteryLevel(Math.floor(battery.level * 100));
+      
+      battery.addEventListener('levelchange', () => {
+        setBatteryLevel(Math.floor(battery.level * 100));
+      });
+    };
+
+    navigator.getBattery().then(updateBatteryStatus);
+  }, []);
 
   return (
     <div className="dashboard">
@@ -121,6 +134,7 @@ const Autonomous = () => {
             </div>
           </div>
         </div>
+
         <div className="status-info">
           <div className="status-item">
             <h4>Speed</h4>
@@ -128,11 +142,12 @@ const Autonomous = () => {
           </div>
           <div className="status-item">
             <h4>Location</h4>
-            <p>28°45'11.2"N 77°07'04.2"E</p>
+            <p>28°45'11.2"N</p>
+            <p>77°07'04.2"E</p>
           </div>
           <div className="status-item">
-            <h4>Battery</h4>
-            <p>86%</p>
+            <h4>Laptop Battery (Base Station)</h4>
+            <p>{batteryLevel !== null ? `${batteryLevel}%` : 'Loading...'}</p>
           </div>
           <div className="status-item">
             <h4>Direction</h4>
