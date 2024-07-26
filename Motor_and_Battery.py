@@ -60,7 +60,7 @@ def home():
 	data = "Welcome to AGNI!"
 	return data
 
-@app.route("/battery")
+@app.route("/battery", methods=['GET'])
 def get_battery_status():
     battery = psutil.sensors_battery
     if battery:
