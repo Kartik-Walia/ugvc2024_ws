@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Autonomous.css';
+import axios from 'axios';
 
 const Autonomous = () => {
   const [longitude, setLongitude] = useState('');
@@ -13,7 +14,9 @@ const Autonomous = () => {
     sensor: false,
     camera: false,
   });
-  const [batteryLevel, setBatteryLevel] = useState(null);
+  const [baseBatteryLevel, setBaseBatteryLevel] = useState(null);
+  const [roverBatteryLevel, setRoverBatteryLevel] = useState(null);
+  const [roverBatteryIsPlugged, setRoverBatteryIsPlugged] = useState(null);
 
   const handleAddCoordinate = () => {
     if (longitude && latitude && !isNaN(longitude) && !isNaN(latitude)) {
@@ -44,15 +47,41 @@ const Autonomous = () => {
   };
 
   useEffect(() => {
-    const updateBatteryStatus = (battery) => {
-      setBatteryLevel(Math.floor(battery.level * 100));
+    const updateBaseBatteryStatus = (battery) => {
+      setBaseBatteryLevel(Math.floor(battery.level * 100));
       
       battery.addEventListener('levelchange', () => {
-        setBatteryLevel(Math.floor(battery.level * 100));
+        setBaseBatteryLevel(Math.floor(battery.level * 100));
       });
     };
 
-    navigator.getBattery().then(updateBatteryStatus);
+    navigator.getBattery().then(updateBaseBatteryStatus);
+  }, []);
+
+  useEffect(() => {
+    const fetchRoverBatteryStatus = async () => {
+      try {
+        const response = await axios.get('http://192.168.0.106:5000/battery');
+        const data = response.data;
+        if (data.percent !== undefined) {
+          setRoverBatteryLevel(Math.floor(data.percent));
+          setRoverBatteryIsPlugged(data.plugged);
+        } else {
+          setRoverBatteryLevel('Error');
+          setRoverBatteryIsPlugged(false);
+        }
+      } catch (error) {
+        console.error('Error fetching battery status:', error);
+        setRoverBatteryLevel('Error');
+        setRoverBatteryIsPlugged(false);
+      }
+    };
+
+    fetchRoverBatteryStatus();
+
+    const intervalId = setInterval(fetchRoverBatteryStatus, 60000); // Fetch every 60 seconds
+
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
@@ -146,8 +175,12 @@ const Autonomous = () => {
             <p>77°07'04.2"E</p>
           </div>
           <div className="status-item">
-            <h4>Laptop Battery (Base Station)</h4>
-            <p>{batteryLevel !== null ? `${batteryLevel}%` : 'Loading...'}</p>
+            <h4>Laptop Battery (Base)</h4>
+            <p>{baseBatteryLevel !== null ? `${baseBatteryLevel}%` : 'Loading...'}</p>
+          </div>
+          <div className="status-item">
+            <h4>Laptop Battery (Rover)</h4>
+            <p>{roverBatteryLevel !== null ? `${roverBatteryLevel}%` : 'Loading...'}</p>
           </div>
           <div className="status-item">
             <h4>Direction</h4>
