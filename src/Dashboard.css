@@ -1,0 +1,185 @@
+/* src/Dashboard.css */
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    background-color: #0c1a2a;
+    color: #fff;
+    padding: 20px;
+    height: 100vh;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .com {
+    display: flex;
+    align-items: center;
+  }
+  
+  .com label {
+    margin-right: 10px;
+  }
+  
+  .com select {
+    background-color: #0c1a2a;
+    color: #fff;
+    border: 1px solid #fff;
+    padding: 5px;
+  }
+  
+  .status {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .connected, .not-connected {
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  
+  .connected {
+    background-color: #00ff00;
+  }
+  
+  .not-connected {
+    background-color: #ff0000;
+  }
+  
+  .body {
+    display: flex;
+    flex: 1;
+    margin-top: 20px;
+  }
+  
+  .sidebar {
+    flex: 0 0 200px;
+    background-color: #1c2a3a;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .switches {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .switch {
+    margin-bottom: 10px;
+  }
+  
+  .switch label {
+    margin-right: 10px;
+  }
+  
+  .switch button {
+    background-color: #004a7c; /* Blue background */
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .switch button:hover {
+    background-color: #006494;
+  }
+  
+  .main {
+    flex: 1;
+    margin: 0 20px;
+  }
+  
+  .coordinate-form {
+    margin-bottom: 20px;
+  }
+  
+  .coordinate-form h3 {
+    margin-bottom: 10px;
+  }
+  
+  .form-group {
+    margin-bottom: 10px;
+  }
+  
+  .form-group label {
+    margin-right: 10px;
+  }
+  
+  .form-group input {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    background-color: #0c1a2a;
+    color: #fff;
+  }
+  
+  .coordinate-form button {
+    background-color: #004a7c; /* Blue background */
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  .coordinate-form button:hover {
+    background-color: #006494;
+  }
+  
+  .clear-history {
+    background-color: #ff0000; /* Red background for clear history */
+  }
+  
+  .clear-history:hover {
+    background-color: #ff4444;
+  }
+  
+  .history {
+    margin-top: 20px;
+  }
+  
+  .history h3 {
+    margin-bottom: 10px;
+  }
+  
+  .history ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .history li {
+    background-color: #004a7c; /* Blue background for history items */
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+  }
+  
+  .status-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #1c2a3a;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .status-item {
+    margin-bottom: 20px;
+    background-color: #004a7c; /* Blue background for status boxes */
+    padding: 10px;
+    border-radius: 10px;
+  }
+  
+  .status-item h4 {
+    margin: 0 0 10px;
+  }
+  
+  .status-item p {
+    margin: 0;
+  }
+  
