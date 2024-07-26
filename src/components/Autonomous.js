@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './Dashboard.css';
+import './Autonomous.css';
 
-const Dashboard = () => {
+const Autonomous = () => {
   const [longitude, setLongitude] = useState('');
   const [latitude, setLatitude] = useState('');
   const [history, setHistory] = useState([]);
@@ -132,4 +132,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Autonomous;

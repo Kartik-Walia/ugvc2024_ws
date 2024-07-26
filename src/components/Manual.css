@@ -28,12 +28,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* justify-content: center; */
   }
   
   .header {
     width: 100%;
-    background-color: antiquewhite;
     text-align: center;
     justify-content: space-between;
   }
@@ -41,7 +39,6 @@
   .title {
     font-size: 2.5rem;
     color: white;
-    background-color: yellow;
   }
   
   .controls {
