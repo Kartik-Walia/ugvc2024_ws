@@ -1,7 +1,7 @@
 import React from 'react';
 import Manual from './components/Manual';
 import Autonomous from './components/Autonomous';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 const App = () => {
   return (

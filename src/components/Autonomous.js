@@ -5,7 +5,7 @@ const Autonomous = () => {
   const [longitude, setLongitude] = useState('');
   const [latitude, setLatitude] = useState('');
   const [history, setHistory] = useState([]);
-  const [screenColor, setScreenColor] = useState('red');
+  const [screenColor, setScreenColor] = useState('red');    // To manage metal detection
   const [switchStates, setSwitchStates] = useState({
     main: false,
     ins: false,
@@ -17,6 +17,8 @@ const Autonomous = () => {
   const handleAddCoordinate = () => {
     if (longitude && latitude && !isNaN(longitude) && !isNaN(latitude)) {
       setHistory([...history, { longitude, latitude }]);
+
+      // Allow user to easily enter new coordinates without having to manually delete the old values
       setLongitude('');
       setLatitude('');
     } else {
@@ -32,6 +34,7 @@ const Autonomous = () => {
     setScreenColor(screenColor === 'red' ? 'green' : 'red');
   };
 
+  // Toggles state of a given switch by name
   const toggleSwitch = (switchName) => {
     setSwitchStates((prevState) => ({
       ...prevState,
@@ -42,18 +45,22 @@ const Autonomous = () => {
   return (
     <div className="dashboard">
       <div className="header">
-        <h1 className="title">AGNI CONTROL CENTRE</h1>
-        <div className="status">
-          <div className="status-item connected">Connected</div>
-          <div className="status-item not-connected">Not Connected</div>
+        <h1 className="title">AGNI CONTROL SYSTEM</h1>
+        <div className='TP'>
+          <div className="tp-link">TP LINK Connection</div>
+          <div className="status">
+            <div className="status-item-2 connected">Connected</div>
+            <div className="status-item-2 not-connected">Not Connected</div>
+          </div>
         </div>
-        <div className="tp-link">TP LINK connection</div>
       </div>
+
       <div className="body">
         <div className="sidebar">
           <div className="switches">
             <h3>Switches</h3>
-            {['main', 'ins', 'gps', 'sensor', 'camera'].map((switchName) => (
+            {['main', 'lidar', 'gps', 'ins', 'camera'].map((switchName) => (
+              <>
               <div className="switch" key={switchName}>
                 <label htmlFor={switchName}>{switchName.toUpperCase()}</label>
                 <button
@@ -64,16 +71,19 @@ const Autonomous = () => {
                   {switchStates[switchName] ? 'ON' : 'OFF'}
                 </button>
               </div>
+              <div className='line' />
+              </>
             ))}
           </div>
           <div className="screen" style={{ backgroundColor: screenColor }}></div>
+          <div className="metal-detection">
+            {screenColor === 'green' ? 'Metal Detected' : 'Metal Not Detected'}
+          </div>
           <button className="toggle-button" onClick={handleScreenToggle}>
             Toggle Screen Color
           </button>
-          <div className="metal-detection">
-            {screenColor === 'green' ? 'Metal Object Detected' : 'Metal Object Not Detected'}
-          </div>
         </div>
+
         <div className="main">
           <div className="history">
             <h3>History</h3>
@@ -88,20 +98,22 @@ const Autonomous = () => {
           <div className="coordinate-form">
             <h3>Enter Coordinates</h3>
             <div className="form-group">
-              <label htmlFor="latitude">Latitude:</label>
+              <label htmlFor="latitude" className='label-lat'>Latitude:</label>
               <input
                 type="text"
                 id="latitude"
                 value={latitude}
                 onChange={(e) => setLatitude(e.target.value)}
               />
-              <label htmlFor="longitude">Longitude:</label>
+              <label htmlFor="longitude" className='label-long'>Longitude:</label>
               <input
                 type="text"
                 id="longitude"
                 value={longitude}
                 onChange={(e) => setLongitude(e.target.value)}
               />
+            </div>
+            <div className="form-group-2">
               <button onClick={handleAddCoordinate}>Add Coordinate</button>
               <button onClick={handleClearHistory} className="clear-history">
                 Clear History
