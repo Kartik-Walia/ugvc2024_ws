@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { FaArrowRight, FaArrowLeft, FaArrowUp, FaArrowDown } from "react-icons/fa";
-import '../App.css';
+import './Manual.css';
 
 const Manual = () => {
   const [speed, setSpeed] = useState(30);
