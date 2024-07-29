@@ -32,6 +32,7 @@ const Manual2 = () => {
         <button className='speed-btn' onClick={() => handleClick('http://192.168.43.89:5000/speed/leftfront/100')}>100</button>
         <button className='speed-btn' onClick={() => handleClick('http://192.168.43.89:5000/speed/leftfront/100')}>150</button>
         <button className='speed-btn' onClick={() => handleClick('http://192.168.43.89:5000/speed/leftfront/100')}>200</button>
+        <button className='speed-btn' onClick={() => handleClick('http://192.168.43.89:5000/revlf')}>Reverse</button>
       </div>  
 
       <div className='speed-buttons'>
@@ -44,6 +45,7 @@ const Manual2 = () => {
         <button className='speed-btn' onClick={() => handleClick('http://192.168.43.89:5000/speed/rightfront/100')}>100</button>
         <button className='speed-btn' onClick={() => handleClick('http://192.168.43.89:5000/speed/rightfront/100')}>150</button>
         <button className='speed-btn' onClick={() => handleClick('http://192.168.43.89:5000/speed/rightfront/100')}>200</button>
+        <button className='speed-btn' onClick={() => handleClick('http://192.168.43.89:5000/revrf')}>Reverse</button>
       </div>  
 
       <div className='speed-buttons'>
@@ -56,6 +58,7 @@ const Manual2 = () => {
         <button className='speed-btn' onClick={() => handleClick('http://192.168.43.89:5000/speed/leftback/100')}>100</button>
         <button className='speed-btn' onClick={() => handleClick('http://192.168.43.89:5000/speed/leftback/100')}>150</button>
         <button className='speed-btn' onClick={() => handleClick('http://192.168.43.89:5000/speed/leftback/100')}>200</button>
+        <button className='speed-btn' onClick={() => handleClick('http://192.168.43.89:5000/revlb')}>Reverse</button>
       </div>  
 
       <div className='speed-buttons'>
@@ -68,6 +71,7 @@ const Manual2 = () => {
         <button className='speed-btn' onClick={() => handleClick('http://192.168.43.89:5000/speed/rightback/100')}>100</button>
         <button className='speed-btn' onClick={() => handleClick('http://192.168.43.89:5000/speed/rightback/100')}>150</button>
         <button className='speed-btn' onClick={() => handleClick('http://192.168.43.89:5000/speed/rightback/100')}>200</button>
+        <button className='speed-btn' onClick={() => handleClick('http://192.168.43.89:5000/revrb')}>Reverse</button>
       </div>  
 
     </div>

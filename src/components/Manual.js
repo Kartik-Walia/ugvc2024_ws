@@ -94,6 +94,10 @@ const Manual = () => {
         </div> */}
       </div>
 
+      <div>
+        <button className='speed-btn' onClick={() => handleClick('http://192.168.43.89:5000/reset')}>Reset</button>
+      </div>
+
       <div className='speed-buttons'>
         <button className='speed-btn' onClick={() => handleClick('http://192.168.43.89:5000/speed/50')}>50</button>
         <button className='speed-btn' onClick={() => handleClick('http://192.168.43.89:5000/speed/60')}>60</button>

@@ -10,7 +10,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<CameraStream />} />
+        <Route path='/' element={<Autonomous />} />
         <Route path='/manual' element={<Manual />} />
         <Route path='/manual2' element={<Manual2 />} />
       </Routes>
