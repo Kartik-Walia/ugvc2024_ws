@@ -142,3 +142,17 @@
   .slider-value {
     color: aliceblue;
   }
+
+  .speed-btn {
+    margin: 25px;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    background-color: aqua;
+    cursor: pointer;
+    font-weight: 800;
+  }
+
+  .head-speed {
+    color: white;
+  }
