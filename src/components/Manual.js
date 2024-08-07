@@ -18,7 +18,7 @@ const Manual = () => {
 
   const handleSliderChange = (event) => {
     setSpeed(event.target.value);
-    axios.get(`http://192.168.43.89:5000/speed/${event.target.value}`)
+    axios.get(`http://192.168.0.106:5000/speed/${event.target.value}`)
       .then(response => {
         console.log(response);
       })
@@ -41,7 +41,7 @@ const Manual = () => {
           <div className="button-wrapper">
             <button
               className="control-button"
-              onClick={() => handleClick('http://192.168.43.89:5000/start')}
+              onClick={() => handleClick('http://192.168.0.106:5000/start')}
             >
               <FaArrowUp />
             </button>
@@ -51,19 +51,19 @@ const Manual = () => {
           <div className="button-group">
             <button
               className="control-button"
-              onClick={() => handleClick('http://192.168.43.89:5000/left')}
+              onClick={() => handleClick('http://192.168.0.106:5000/left')}
             >
               <FaArrowLeft />
             </button>
             <button
               className="control-button stop-button"
-              onClick={() => handleClick('http://192.168.43.89:5000/stop')}
+              onClick={() => handleClick('http://192.168.0.106:5000/stop')}
             >
               Stop
             </button>
             <button
               className="control-button"
-              onClick={() => handleClick('http://192.168.43.89:5000/right')}
+              onClick={() => handleClick('http://192.168.0.106:5000/right')}
             >
               <FaArrowRight />
             </button>
@@ -73,7 +73,7 @@ const Manual = () => {
           <div className="button-wrapper">
             <button
               className="control-button"
-              onClick={() => handleClick('http://192.168.43.89:5000/reverse')}
+              onClick={() => handleClick('http://192.168.0.106:5000/reverse')}
             >
               <FaArrowDown />
             </button>
@@ -95,16 +95,16 @@ const Manual = () => {
       </div>
 
       <div>
-        <button className='speed-btn' onClick={() => handleClick('http://192.168.43.89:5000/reset')}>Reset</button>
+        <button className='speed-btn' onClick={() => handleClick('http://192.168.0.106:5000/reset')}>Reset</button>
       </div>
 
       <div className='speed-buttons'>
-        <button className='speed-btn' onClick={() => handleClick('http://192.168.43.89:5000/speed/50')}>50</button>
-        <button className='speed-btn' onClick={() => handleClick('http://192.168.43.89:5000/speed/60')}>60</button>
-        <button className='speed-btn' onClick={() => handleClick('http://192.168.43.89:5000/speed/70')}>70</button>
-        <button className='speed-btn' onClick={() => handleClick('http://192.168.43.89:5000/speed/80')}>80</button>
-        <button className='speed-btn' onClick={() => handleClick('http://192.168.43.89:5000/speed/90')}>90</button>
-        <button className='speed-btn' onClick={() => handleClick('http://192.168.43.89:5000/speed/100')}>100</button>
+        <button className='speed-btn' onClick={() => handleClick('http://192.168.0.106:5000/speed/50')}>50</button>
+        <button className='speed-btn' onClick={() => handleClick('http://192.168.0.106:5000/speed/60')}>60</button>
+        <button className='speed-btn' onClick={() => handleClick('http://192.168.0.106:5000/speed/70')}>70</button>
+        <button className='speed-btn' onClick={() => handleClick('http://192.168.0.106:5000/speed/80')}>80</button>
+        <button className='speed-btn' onClick={() => handleClick('http://192.168.0.106:5000/speed/90')}>90</button>
+        <button className='speed-btn' onClick={() => handleClick('http://192.168.0.106:5000/speed/100')}>100</button>
       </div>  
 
     </div>
