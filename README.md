@@ -2,9 +2,9 @@
 
 This is the official workspace of [UGV-DTU](https://sites.google.com/dtu.ac.in/ugvdtu) for [ICTMC UGVC 2024](https://ugvc.conferences.ekb.eg/), organized into 3 branches:
 
-- **ros_workspace** - ROS packages for robot control and simulation.
-- **react_gui**: React frontend for the GUI for controlling the rover.
-- **arduino_sensors**: Arduino code for interfacing with various sensors.
+- [**ros_workspace**](https://github.com/thekartikwalia/ugvc2024_ws/tree/ros_workspace): ROS packages for robot control and simulation.
+- [**react_gui**](https://github.com/thekartikwalia/ugvc2024_ws/tree/react_gui): React frontend for the GUI for controlling the rover.
+- [**arduino_sensors**](https://github.com/thekartikwalia/ugvc2024_ws/tree/arduino_sensors): Arduino code for interfacing with various sensors.
 
 ## Cloning the Repository
 
