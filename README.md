@@ -35,3 +35,18 @@ This workspace is divided into folowing packages, each responsible for a specifi
 - **terrain_traversing**: Performs spiral-like motion in the first stage to find metal.
 - **waypoint_navigation_gps**: Uses GPS and IMU data to navigate to specified GPS coordinates.
 - **waypoint_navigation_imu**: Uses IMU data to navigate in regions where GPS is unavailable.
+
+## Contributing
+
+Contributions are welcome! Please create a pull request or raise an issue for any enhancements or bug fixes.
+
+<!-- ## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. -->
+
+## Contact
+
+For any queries or further information, please contact:
+
+- Phone: [+91 9717090525](tel:+919717090525)
+- Email: [business.kartikwalia@gmail.com](mailto:business.kartikwalia@gmail.com)
