@@ -1,12 +1,8 @@
-# UGVC 2024 ROS1 Workspace
-
-This is the official ROS1 workspace of [UGV-DTU](https://sites.google.com/dtu.ac.in/ugvdtu) for [ICTMC UGVC 2024](https://ugvc.conferences.ekb.eg/).
+# UGV Software - ROS Noetic Workspace
 
 ## How to Use This Repository
 
 ```bash
-git clone https://github.com/Kartik-Walia/ugvc2024_ws
-cd ugvc2024_ws
 catkin_make
 source devel/setup.bash
 ```
@@ -23,12 +19,12 @@ source ~/.bashrc
 ```bash
 catkin_make
 source devel/setup.bash
-roslaunch <package> <node>
+roslaunch <package_name> <node_name>
 ```
 
 ## Workspace Breakdown
 
-This workspace is divided into nine packages, each responsible for a specific task:
+This workspace is divided into folowing packages, each responsible for a specific task:
 
 - **black_box_detection**: Detects and reads numbers on a black box in the final stage.
 - **launch**: Manages the launch of various sections and task nodes.
@@ -39,6 +35,3 @@ This workspace is divided into nine packages, each responsible for a specific ta
 - **terrain_traversing**: Performs spiral-like motion in the first stage to find metal.
 - **waypoint_navigation_gps**: Uses GPS and IMU data to navigate to specified GPS coordinates.
 - **waypoint_navigation_imu**: Uses IMU data to navigate in regions where GPS is unavailable.
-
-## Current Progress of the Bot
-<img src="https://github.com/vedantsinggh/ugvc2024_ws/assets/136734646/d3666635-c575-48b6-ad26-bb2ba5dc1385" alt="drawing" width="400"/>
